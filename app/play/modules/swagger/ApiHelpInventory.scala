@@ -10,6 +10,7 @@ import java.io.StringWriter
 
 import play.api.Play.current
 import play.api.Logger
+import play.router.PlayApiReader
 
 import scala.collection.mutable.ListBuffer
 import scala.Predef._
@@ -60,7 +61,7 @@ object ApiHelpInventory {
       }
     }
 
-    val allApiDoc = new Documentation
+    val allApiDoc = new Documentation(apiVersion = apiVersion, swaggerVersion = swaggerVersion, basePath = basePath, resourcePath = null)
     for (clazz <- getControllerClasses) {
       val apiAnnotation = clazz.getAnnotation(classOf[Api])
       if(null != apiAnnotation){
@@ -73,9 +74,9 @@ object ApiHelpInventory {
       }
     }
 
-    allApiDoc.swaggerVersion = swaggerVersion
-    allApiDoc.basePath = basePath
-    allApiDoc.apiVersion = apiVersion
+//    allApiDoc.swaggerVersion = swaggerVersion
+//    allApiDoc.basePath = basePath
+//    allApiDoc.apiVersion = apiVersion
 
     allApiDoc
   }
@@ -136,6 +137,7 @@ object ApiHelpInventory {
     */
   private def getControllerClasses = {
     if(this.controllerClasses.length == 0) {
+
 	  val swaggerControllers = current.getTypesAnnotatedWith("controllers", classOf[Api])
  
       if(swaggerControllers.size() > 0) {

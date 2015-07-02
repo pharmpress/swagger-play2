@@ -52,7 +52,7 @@ class SwaggerBaseApiController extends Controller {
         stringWriter.toString
       }
     }
-    new SimpleResult[String](header = ResponseHeader(200), body = play.api.libs.iteratee.Enumerator(xmlValue)).as("application/xml")
+    new SimpleResult(header = ResponseHeader(200), body = play.api.libs.iteratee.Enumerator(xmlValue.getBytes)).as("application/xml")
   }
 
   protected def returnValue(request: Request[_], obj: Any): Result = {
@@ -73,6 +73,6 @@ class SwaggerBaseApiController extends Controller {
         w.toString()
       }
     }
-    new SimpleResult[String](header = ResponseHeader(200), body = play.api.libs.iteratee.Enumerator(jsonValue)).as("application/json")
+    new SimpleResult(header = ResponseHeader(200), body = play.api.libs.iteratee.Enumerator(jsonValue.getBytes)).as("application/json")
   }
 }
